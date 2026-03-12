@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\Ads;
+use App\Models\Ad;
 
-class User extends Model
+class User extends Authenticatable
 {
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
