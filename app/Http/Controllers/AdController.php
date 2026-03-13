@@ -53,6 +53,8 @@ class AdController extends Controller
                     ]);
                 }
             }
+            $user= new User;
+            Auth::login($user);
             //$request->session()->forget('_old_input'); 
             return redirect('/index')->with('success', 'Votre Article à été Publié avec Succès');
     }

@@ -5,18 +5,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get("/inscription", function () {
-    return view('freeads.signup');
-});
-
-// Route::get('/freeads', function () {
-//     return view('freeads.test');
-// });
 
 Route::post('/freeads',  [TestController::class, 'addUserInfo'])->name('freeads.addUserInfo');
 //Route::get('/freeads/login', [TestController::class, 'loginForm']);
@@ -43,7 +36,9 @@ Route::get('/index', function() {
     return 'Page Principale';
 })->name('index');
 
+Route::get("/admin", [AdminController::class, 'displayUsers'])->name('admin.display');
 
+Route::post("/admin", [AdminController::class, 'adminActions'])->name('admin.actions');
 
 
 

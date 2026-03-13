@@ -16,16 +16,16 @@
 @endsection
 
 @section('styles')
-     @vite(['resources/css/ads.css'])
+        @vite(['resources/css/ads.css'])
 @endsection
 
 @section('container')
 
 @if(session('success'))
-    {{ session('success') }}
+   <div> {{ session('success') }}</div>
 @endif
 
-<div> Postez et Publiez {{ Auth::user()->login }} </div>
+<div> Postez et Publiez {{--{{ Auth::user()->login }}-->--}} </div>
 <form action="" method="POST" enctype="multipart/form-data">
     @csrf
 
