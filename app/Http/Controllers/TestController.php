@@ -28,6 +28,6 @@ class TestController extends Controller
     }
 
     public function login(){
-       return view('freeads.ads');
+       return redirect('/inscription');
     }
 }

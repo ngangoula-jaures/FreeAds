@@ -3,36 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Ad;
+use App\Models\AdPhoto;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
-    public function displayUsers(){
-        $users= User::paginate(7);
+    public function displayAdminPage(){
+        $users= User::paginate(7, ['*'], 'users');
+        $user=User::find(21);//Utiliser AuthId plus tard
+        $adsCount= Ad::where('user_id', 21)->count();//Utiliser AuthId plus tard
+        $categories= Category::paginate(4, ['*'], 'categories');
+        //$pages= $category->links();
 
-        return view('freeads.admin', compact('users'));
-    }
-/*
-    public function deleteUser(Request $request){
-        $id=$request->deleteUser;
-        $user=User::findOrFail($id);
-        $user->delete();
-        //User::where('id', $id)->deleteOrFail();
-        
-        return redirect('/admin');
+        return view('freeads.admin', compact('users', 'categories', 'user', 'adsCount'));
     }
 
-*/
+    public function displayAnnoncesPage(){
+        $ads= Ad::paginate(12, ['*'], 'annonces');
+        $photos=[];
+        foreach($ads as $ad){
+           $photos[$ad->id]= AdPhoto::where('ad_id', $ad->id)->first();
+        }
+        return view('freeads.adminAnnonces', compact('ads', 'photos'));
+    }
 
+    public function displayProfilePage(){
+        //Trouver le User avec son Id via Auth::id();
+        $user= User::find('21');
+        $adsCount= Ad::where('user_id', 21)->count();
+        return view('freeads.adminProfile', compact('user', 'adsCount'));
+    }
 
     public function adminActions(Request $request){
         if($request->has('deleteUser')){
-        $id=$request->deleteUser;
-        $user=User::findOrFail($id);
-        $user->delete();
-        //User::where('id', $id)->deleteOrFail();
+            $id=$request->deleteUser;
+            $user=User::findOrFail($id);
+            $user->delete();
+            //User::where('id', $id)->deleteOrFail();
         
         return redirect('/admin');
         } else if ($request->has('modifyUser')){
@@ -57,16 +68,70 @@ class AdminController extends Controller
                 }
 
                 return redirect('/admin')->with('success', "Vos modification en été enregistré!!!");
-                // foreach($validated as $key=>$value){
-                //     User::where('id', $key)->update([
-                //         'login'=>$user['login'], 
-                //         'email'=>$user['email'],
-                //         'phone_number'=>$user['phone_number'], 
-                //         'role'=>$user['role']
-                //         ]);
-                // }
 
-            }   
+        }else if($request->has('deleteCategory')){
+                $id=$request->deleteCategory;
+                $category=Category::findOrFail($id);
+                $category->delete();
+
+                return redirect('/admin')->with('success', "Vos modification en été enregistré!!!");
+        } else if($request->has('modifyCategory')){
+
+            $categories=$request->categories;
+                foreach($categories as $id=>$category){
+                    $validated= Validator::make($category, [
+                    'name'=>['required', 'string', 'max:255', Rule::unique('categories', 'name')->ignore($id)],
+                ])->validate();
+                    $item= Category::find($id);
+                    if($item){
+                        Category::where('id', $id)->update([
+                        'name'=>$validated['name'], 
+                        'slug'=>str($validated['name'])->slug(),
+                        ]);
+                    }else{
+                        Category::create([
+                        'name'=>$validated['name'], 
+                        'slug'=>str($validated['name'])->slug(),
+                        ]);
+                    }
+                    
+                }
+
+                return redirect('/index')->with('success', "Vos modification en été enregistré!!!");
+        }else if($request->has('ajouterCategory')){
+
+            $users= User::paginate(7, ['*'], 'users');
+            $categories= Category::paginate(4, ['*'], 'categories');
+            $ajouter='';
+            return view('freeads.admin', compact('users', 'categories', 'ajouter'));
+        }else if($request->has('q')){
+            $input=$request->q;
+            $users=User::where('login', 'LIKE', "%$input%")
+            ->orWhere('email', 'LIKE', "%$input%")
+            ->orWhere('phone_number', 'LIKE', "%$input%")->paginate(7, ['*'], 'users');
+            $categories= Category::paginate(4, ['*'], 'categories');
+
+            return view('freeads.admin', compact('users', 'categories'));
+        }
+
+    }
+        //annonces Admin CRUD
+    public function annoncesActions(Request $request){
+        if($request->has('deleteAds')){
+
+            $id=$request->deleteAds;
+            $annonces= Ad::findOrFail($id);
+            $annonces->delete();
+            return redirect('/admin/annonces');
+        }else if($request->has('q')){
+            $q=$request->q;
+            $ads=Ad::where('title', 'REGEXP', "\\b$q\\b")->paginate(12, ['*'], 'annonces');
+            $photos=[];
+            foreach($ads as $ad){
+                $photos[$ad->id]= AdPhoto::where('ad_id', $ad->id)->first();
+            }
+            return view('freeads.adminAnnonces', compact('ads', 'photos'));
 
         }
     }
+}

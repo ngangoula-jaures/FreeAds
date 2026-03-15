@@ -26,7 +26,7 @@
 @endif
 
 <div> Postez et Publiez {{--{{ Auth::user()->login }}-->--}} </div>
-<form action="" method="POST" enctype="multipart/form-data">
+<form action="{{ route('publication.publier')}} " method="POST" enctype="multipart/form-data">
     @csrf
 
     <div>

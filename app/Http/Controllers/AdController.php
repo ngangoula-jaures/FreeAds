@@ -31,7 +31,7 @@ class AdController extends Controller
             'description'=>'required|string|min:10|max:5000',
         ]);
 
-        $validate= $request->validate([
+        $request->validate([
             'photo'=>'required|array|min:1|max:5',
             'photo.*'=>'image|mimes:jpg,png,jpeg|max:2048',
         ], [
@@ -40,9 +40,18 @@ class AdController extends Controller
             'photo.*.max'=>"Taille autorisé : 2mo",
         ]);
 
-            $validated['user_id']= Auth::id();
-            $ad= Ad::create($validated);
-
+            $itemId= Auth::id();
+            //a enlever plus tard et verifier plutot si Auth::id() est defini avant de donner acces a la page
+            if($itemId){
+                $validated['user_id']= Auth::id();
+                $ad= Ad::create($validated);
+            }else{
+                $user= User::find(21);
+                Auth::login($user);
+                $validated['user_id']= Auth::id();
+                $ad= Ad::create($validated);
+            }
+            //a enlever le bloc entre ces deux commentaires
             if($request->hasFile('photo')){
                 $files= $request->file('photo');
                 foreach($files as $file){
@@ -53,8 +62,8 @@ class AdController extends Controller
                     ]);
                 }
             }
-            $user= new User;
-            Auth::login($user);
+            // $user= new User;
+            // Auth::login($user);
             //$request->session()->forget('_old_input'); 
             return redirect('/index')->with('success', 'Votre Article à été Publié avec Succès');
     }

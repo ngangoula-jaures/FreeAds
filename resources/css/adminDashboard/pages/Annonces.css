@@ -1,0 +1,104 @@
+:root {
+    --fa-style-family-classic: "Font Awesome 6 Free";
+    --blue-color: #0075ff;
+    --blue-alt-color: #0d69d5;
+    --orange-color: #f59e0b;
+    --green-color: #22c55e;
+    --red-color: #f44336;
+    --grey-color: #888;
+    --border-color: #ccc;
+}
+/* Start Courses Page */
+.courses-page {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+@media (max-width: 767px) {
+    .courses-page {
+        grid-template-columns: 1fr;
+    }
+}
+.courses-page .course {
+    overflow: hidden;
+}
+.courses-page .cover {
+    max-width: 100%;
+    min-width: 100%;
+    height: 300px; 
+    object-fit: contain; 
+    background-color: #f9f9f9;
+}
+.courses-page .instructor {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    top: 20px;
+    left: 20px;
+    border: 2px solid white;
+    border-radius: 50%;
+}
+.courses-page .course h4 {
+    margin: 0;
+    height: 40px; 
+    line-height: 20px; 
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; 
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-size: 16px;
+}
+.courses-page .info {
+    border-top: 1px solid #eee;
+    font-size: 13px;
+}
+.courses-page .info .title {
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    top: -13px;
+    height: 27px;
+}
+@media (max-width: 767px) {
+    .head {
+        flex-direction: row; 
+        flex-wrap: nowrap;   
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+    .courses-page {
+        margin-left: 10px;
+        margin-right: 10px;
+        gap: 10px;
+    }
+}
+.head .search {
+    flex: 1;
+    min-width: 0;
+    max-width: 200px;
+}
+.head .search input {
+    width: 100%; 
+    min-width: 50px;
+}
+.p-relative{
+    font-weight: bold;
+}
+
+/* End Courses Page */
+/*style button*/
+.btn {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    background: #d71f12;
+    color: #f2eded;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    margin-right: 15px; 
+    white-space: nowrap; 
+    flex-shrink: 0;      
+    margin-right: 0;
+}
