@@ -61,7 +61,7 @@
             <div class="courses-page d-grid m-20 gap-20">
                 @foreach($ads as $ad)
                 <div class="bg-white p-relative rad-6 course">
-                    <img class="cover" src="{{ Storage::url($photos[$ad->id]['path']) }}" alt="" />
+                    <a href='{{ route('annonces.id', ['id'=>$ad->id]) }}'><img class="cover" src="{{ Storage::url($photos[$ad->id]['path']) }}" alt="" /></a>
                     {{--<img class="instructor" src="imgs/team-01.png" alt="" />--}}
                     <div class="p-20">
                         <h4 class="m-0">{{ $ad->title}}</h4>

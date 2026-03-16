@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Location;
 use App\Models\Ad;
 use App\Models\AdPhoto;
 use Illuminate\Validation\Rule;
@@ -35,17 +36,29 @@ class UserDashboardController extends Controller
         return view('freeads.userProfile', compact('user', 'adsCount'));
     }
 
+    public function displayAdsIdPage($id=null){
+
+        $ad= Ad::find($id);
+        $adPhotos= AdPhoto::where('ad_id', $id)->get();
+        $adCategory= Category::where('id', $ad->category_id)->firstOrFail();
+        $adLocation= Location::where('id', $ad->location_id)->firstOrFail();
+        //$firstphoto= AdPhoto::where('ad_id', $id)->first();
+
+        return view('freeads.product', compact('ad', 'adPhotos', 'adCategory', 'adLocation'));
+
+    }
+
     public function userActions(Request $request){
        
     }
-        //annonces Admin CRUD
+        //annonces User CRUD
     public function annoncesActions(Request $request){
         if($request->has('deleteAds')){
 
             $id=$request->deleteAds;
             $annonces= Ad::findOrFail($id);
             $annonces->delete();
-            return redirect('/admin/annonces');
+            return redirect('/dashboard/annonces');
         }else if($request->has('q')){
             $q=$request->q;
             $ads=Ad::where('title', 'REGEXP', "\\b$q\\b")->paginate(12, ['*'], 'annonces');
@@ -53,7 +66,7 @@ class UserDashboardController extends Controller
             foreach($ads as $ad){
                 $photos[$ad->id]= AdPhoto::where('ad_id', $ad->id)->first();
             }
-            return view('freeads.adminAnnonces', compact('ads', 'photos'));
+            return view('freeads.userAnnonces', compact('ads', 'photos'));
 
         }
     }

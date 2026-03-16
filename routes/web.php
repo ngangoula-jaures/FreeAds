@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\TmpUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -45,11 +46,17 @@ Route::get('/admin/profile', [AdminController::class, 'displayProfilePage'])->na
 
 //User Principal Dashboard Pour le CRUD 
 Route::get("/dashboard", [UserDashboardController::class, 'displayDashboardPage'])->name('dashboard');
-//Pages Annonces chez L'Admin ou il Peut Supprimer des annonces presentes sur le site
+//Pages Annonces pour le User ou il Peut Supprimer des annonces presentes sur le site
 Route::get('/dashboard/annonces', [UserDashboardController::class, 'displayAnnoncesPage'])->name('user.annonces');
 Route::post('/dashboard/annonces', [UserDashboardController::class, 'annoncesActions'])->name('userAnnonces.Actions');
-//Pages Profile Admin
+//Pages Profile User
 Route::get('/dashboard/profile', [UserDashboardController::class, 'displayProfilePage'])->name('user.profile');
+
+//Page produits
+Route::get('/annonces/{id?}', [UserDashboardController::class, 'displayAdsIdPage'])->name('annonces.id');
+
+//Route pour les Temporary Users
+Route::get('freeads/inscription/{token}', [TmpUserController::class, 'displaySignupPage'])->name('freeads.signup');
 
 
 

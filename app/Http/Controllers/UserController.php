@@ -18,6 +18,8 @@ class UserController extends Controller
             'phone_number'=>'required|digits:10|unique:users,phone_number',
         ]);
 
+        
+
         $user= User::create($validated);
         // $categories = Category::all();
         // $locations = Location::all();
