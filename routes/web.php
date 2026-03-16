@@ -17,22 +17,22 @@ Route::get('/', function () {
 Route::post('/freeads',  [TestController::class, 'addUserInfo'])->name('freeads.addUserInfo');
 Route::get('/freeads/login', [TestController::class, 'login']);
 
-Route::get('/publication', [AdController::class, 'displayForm'])->name('publication.variables');
+//Route::get('/publication', [AdController::class, 'displayForm'])->name('publication.variables');
 
 // on commence
 
+
+//inscription avec coordonnées maintenant
+Route::get("/inscription/{token}", [UserController::class, 'displaySignupPage'])->name('signup');
+Route::post("/inscription", [UserController::class, 'create'])->name('inscription');
+//page de publication d'annonces
 Route::get('/publication', [AdController::class, 'displayForm'])->name('publication.variables');
-
-Route::get("/inscription", function () {
-    return view('freeads.signup');
-})->name('signup');
-
 Route::post('/publication', [AdController::class, 'publier'])->name('publication.publier');
 
-Route::post("/inscription", [UserController::class, 'create'])->name('inscription');
+
 
 Route::get('/index', function() {
-    return url()->current();
+    return 'lien expiré';
 })->name('index');
 
 //Admin Principal Dashboard ou il peut faire du CRUD sur Categories et Users
@@ -57,6 +57,11 @@ Route::get('/annonces/{id?}', [UserDashboardController::class, 'displayAdsIdPage
 
 //Route pour les Temporary Users
 Route::get('freeads/inscription/{token}', [TmpUserController::class, 'displaySignupPage'])->name('freeads.signup');
+
+Route::get('/test', function(){
+    return view('freeads.test');
+});
+Route::post('/test', [TmpUserController::class, 'create'])->name('test');
 
 
 

@@ -15,18 +15,14 @@
        //Request $name 
     @endphp
     </div>
-<form action="{{ route('signup') }}" method="POST">
+<form action="{{ route('inscription') }}" method="POST">
         @csrf
         <input type="text" name="login" placeholder="Met ton ton nom"  value="{{old('login')}}"><br>
             @error('login')
                 <span>{{$message}}</span>
             @enderror
         <br>
-        <input type="email" name="email" placeholder="Email"  value="{{old('email')}}"><br>
-            @error('email')
-                <span>{{$message}}</span>
-            @enderror
-        <br>
+        <input type="hidden" name="token"  value="{{ $verifToken->token }}"><br>
         <input type="password" name="password" placeholder="Mot de passe"><br>
         <br>
         <input type="password" name="password_confirmation" placeholder="Retapez le mot de passe" ><br>
