@@ -7,7 +7,6 @@ use App\Models\AdPhoto;
 use App\Models\Ad;
 use App\Models\Category;
 use App\Models\Location;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -40,18 +39,13 @@ class AdController extends Controller
             'photo.*.max'=>"Taille autorisé : 2mo",
         ]);
 
-            $itemId= Auth::id();
-            //a enlever plus tard et verifier plutot si Auth::id() est defini avant de donner acces a la page
-            if($itemId){
+            //$itemId= Auth::id();
+                //Avec le Middleware Plus besoin de verifier ici si l'utilisateur est connecté
+                //cahque annonces a un user_id correspondant a l'id de l'utilisateur qui l'a créé
                 $validated['user_id']= Auth::id();
                 $ad= Ad::create($validated);
-            }else{
-                $user= User::find(21);
-                Auth::login($user);
-                $validated['user_id']= Auth::id();
-                $ad= Ad::create($validated);
-            }
-            //a enlever le bloc entre ces deux commentaires
+            //une annonces a toujours au moins une photo(defini dans le $request->validate) mais une couche 
+            // de verification n'est pas de trop
             if($request->hasFile('photo')){
                 $files= $request->file('photo');
                 foreach($files as $file){
@@ -62,8 +56,7 @@ class AdController extends Controller
                     ]);
                 }
             }
-            // $user= new User;
-            // Auth::login($user);
+            
             //$request->session()->forget('_old_input'); 
             return redirect('/index')->with('success', 'Votre Article à été Publié avec Succès');
     }

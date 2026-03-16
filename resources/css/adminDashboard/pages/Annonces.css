@@ -102,3 +102,15 @@
     flex-shrink: 0;      
     margin-right: 0;
 }
+
+.status {
+    background-color: #f8d7da; /* Rouge très clair */
+    color: #721c24;           /* Texte rouge foncé */
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #f5c6cb;
+    text-align: center;
+    margin: 20px 0;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}

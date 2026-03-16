@@ -50,15 +50,22 @@
                 </div>
                 <div class="icons d-flex align-center">
                     <span class="p-relative">
+                        <form action="{{ route('logout') }}" method="POST">
+                         @csrf
                     <button class='btn btn-primary'>Se deconnecter</button>
+                        </form>
                     </span>
                 </div>
             </div>
             <h1 class="p-relative"><b>Annonces</b></h1>
             <!-- End Head -->
             <!-- Start Courses Page -->
-
+            @if($status)
+                    
+                <div class="status">{{ $status }}</div>
+            @else
             <div class="courses-page d-grid m-20 gap-20">
+                
                 @foreach($ads as $ad)
                 <div class="bg-white p-relative rad-6 course">
                     <a href='{{ route('annonces.id', ['id'=>$ad->id]) }}'><img class="cover" src="{{ Storage::url($photos[$ad->id]['path']) }}" alt="" /></a>
@@ -84,11 +91,13 @@
                 @endforeach 
 
             </div>
+            
             <!-- End Courses Page -->
         </div>
         <div class="pagination-links">
             {{ $ads->links() }}
         </div>
+        @endif
     </div>
 </body>
 </html>

@@ -45,6 +45,11 @@ use Illuminate\Support\Facades\Storage;
             <span>Annonces</span>
             </a>
         </li>
+        <li>
+            <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('home.page') }}">
+            <span>Accueil</span>
+            </a>
+        </li>
         </ul>
     </div>
     <div class="content w-full">
@@ -55,7 +60,10 @@ use Illuminate\Support\Facades\Storage;
         </div>
         <div class="icons d-flex align-center">
                     <span class="p-relative">
+                        <form action="{{ route('logout') }}" method="POST">
+                         @csrf
                     <button class='btn btn-primary'>Se deconnecter</button>
+                    <form>
                     </span>
                 </div>
         </div>

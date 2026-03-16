@@ -47,7 +47,10 @@
                 <div class="icons d-flex align-center">
                     <span class="p-relative">
                     <button class='btn btn-primary'>Mot de Passe oublié ?</button>
+                    <form action="{{ route('logout') }}" method="POST">
+                         @csrf
                     <button class='btn btn-primary'>Se deconnecter</button>
+                    </form>
                     </span>
                 </div>
             </div>

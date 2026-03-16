@@ -45,6 +45,11 @@ use Illuminate\Support\Facades\Storage;
             <span>Annonces</span>
             </a>
         </li>
+        <li>
+            <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('home.page')}}">
+            <span>Accueil</span>
+            </a>
+        </li>
         </ul>
     </div>
     <div class="content w-full">
@@ -58,7 +63,10 @@ use Illuminate\Support\Facades\Storage;
         </div>
         <div class="icons d-flex align-center">
                     <span class="p-relative">
+                    <form action="{{ route('logout') }}" method="POST">
+                         @csrf
                     <button class='btn btn-primary'>Se deconnecter</button>
+                    </form>
                     </span>
                 </div>
         </div>
@@ -72,9 +80,9 @@ use Illuminate\Support\Facades\Storage;
                 <h2 class="m-0">Welcome</h2>
                 <p class="c-grey mt-5">{{ $user->login }}</p>
             </div>
-            <img class="hide-mobile" src="{{Storage::url('images/avatar.jpeg')}}" alt="" />
+            <img class="hide-mobile" src="{{Storage::url($user->avatar)}}" alt="" />
             </div>
-            <img src="{{Storage::url('images/avatar.jpeg')}}" alt="" class="avatar" />
+            <img src="{{Storage::url($user->avatar)}}" alt="" class="avatar" />
             <div class="body txt-c d-flex p-20 mt-20 mb-20 block-mobile">
             <div>{{ $user->login }}<span class="d-block c-grey fs-14 mt-10">{{ $user->role }}</span></div>
             <div>{{ $adsCount }} <span class="d-block c-grey fs-14 mt-10">Annonces</span></div>

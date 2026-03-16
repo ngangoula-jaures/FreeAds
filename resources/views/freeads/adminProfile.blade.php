@@ -36,6 +36,11 @@
                         <span class="fs-14 hide-mobile">Annonces</span>
                     </a>
                 </li>
+                <li>
+            <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('home.page') }}">
+            <span>Accueil</span>
+            </a>
+        </li>
             </ul>
         </div>
         <div class="content w-full ov-hidden">
@@ -47,7 +52,10 @@
                 <div class="icons d-flex align-center">
                     <span class="p-relative">
                     <button class='btn btn-primary'>Mot de Passe oublié ?</button>
+                    <form action="{{ route('logout') }}" method="POST">
+                         @csrf
                     <button class='btn btn-primary'>Se deconnecter</button>
+                    </form>
                     </span>
                 </div>
             </div>
@@ -57,7 +65,14 @@
                 <!-- Start OverView -->
                 <div class="overview bg-white rad-10 d-flex align-center">
                     <div class="avatar-box txt-c p-20">
-                        <img class="mb-10 rad-half" src="{{ Storage::url('images/avatar.jpeg') }}" alt="">
+                        <form action="{{ route('admin.avatar') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PATCH')
+                            <label for="new-img" style="Cursor: pointer;"> 
+                                <img class="mb-10 rad-half" src="{{ $user->avatar ? Storage::url($user->avatar) : Storage::url('images/avatar.jpeg') }}" alt="">
+                            </label>
+                            <input type="file" id="new-img" name="avatar" accept="image/*" hidden onchange="this.form.submit()">
+                        </form>
                         <h3 class="m-0">{{ $user->login }}</h3>
                         <p class="mt-10 c-grey">{{$user->role}}</p>
                         <div class="level rad-6 bg-eee p-relative">

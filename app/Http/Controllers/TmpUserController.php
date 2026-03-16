@@ -11,8 +11,9 @@ use Carbon\Carbon;
 
 class TmpUserController extends Controller
 {
+    //J'utilise ici une Table Temporaire tmpusers pour les verifs des emails avant remplissage des infos
     public function create( Request $request){
-    
+        //on cree l'utilisateur temporaire avec son mail et un token unique generé
         $validated= $request->validate([
             'email'=>'required|email|unique:users,email',
         ], [
@@ -25,7 +26,8 @@ class TmpUserController extends Controller
             ['email' => $validated['email']],
             ['token' => $token, 'created_at'=> Carbon::now()]
         );
-
+        //on donne à l'url la route vers la page unique associé à l'utilsateur pour le remplissage des ces infos
+        //et l'enregistrement dans la vraie base users!
         $url= route('signup', ['token'=>$token]);
 
         Mail::to($validated['email'])->send(new VerifyRegistrationMail($url));
@@ -34,16 +36,17 @@ class TmpUserController extends Controller
     }
 
     public function displaySignupPage($token){
-
+        //Ici on affiche la page d'inscription mais on reverifie la validité du token
+        //au cas ou il aurait expiré! 24h
         $verifToken= TmpUser::where('token', $token)->firstOrFail();
 
-        if($verifToken->created_at < now()->subMinutes(2)){
+        if($verifToken->created_at < now()->subHours(24)){
             $verifToken->delete();
             return redirect()->route('index');
         }else{
             
-            return redirect()->route('signup', ['token'=>$verifToken]);// j'ai passé le verifToken en parametre 
-        //pour l"envoyer en post en hidden lors de l'inscription de l'utilisateur
+            return redirect()->route('signup', ['token'=>$verifToken]);
+        
         }
         
     }
