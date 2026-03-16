@@ -1,59 +1,24 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+🚀 Freeads Project
+C’est notre projet de groupe réalisé à la Coding Academy. 
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+L’objectif : concevoir une plateforme complète et fluide de petites annonces avec PHP et Laravel.
 
-## About Laravel
+🛠️ Ce qu'on peut faire sur le site: 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Inscription sécurisée (Pending Registration) : Pour s'inscrire, l'utilisateur entre son email pour une première vérification. Un lien unique lui est envoyé pour finaliser son profil et valider son compte.
+https://i.postimg.cc/MHY5VhqY/Whats-App-Image-2026-03-16-at-23-08-57.jpg
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Système d'Annonces complet : Une fois connecté, tu peux publier des annonces avec titre, prix (en FCFA), catégorie, localisation (Abidjan, etc.), état du produit (Nouveau, Bon état, Usagé) et photos.
+https://i.postimg.cc/T1Qjpgch/Whats-App-Image-2026-03-16-at-23-02-32.jpg
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Dashboard Utilisateur & Admin :Côté User : Un espace privé pour gérer tes annonces (voir, modifier, supprimer).
+https://i.postimg.cc/pL3fh2Kd/Whats-App-Image-2026-03-16-at-23-30-03.jpg
 
-## Learning Laravel
+Côté Admin : Un panneau de contrôle avec des statistiques globales (nombre d'annonces, ventes, suppressions) et des outils de modération pour gérer les catégories et le contenu du site.
+https://i.postimg.cc/tJrPXyXJ/Whats-App-Image-2026-03-16-at-23-30-29.jpg
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Recherche & Filtres performants : Une barre de recherche principale et des filtres par catégorie ou ville pour trouver rapidement ce que tu cherches.Interface Responsive : Le site est conçu pour être aussi beau et fonctionnel sur PC que sur mobile.
+https://i.postimg.cc/LX2ZLh5p/Whats-App-Image-2026-03-16-at-23-31-02.jpg
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+⚙️ Côté techniqueArchitecture : MVC (Model-View-Controller).Sécurité : Gestion stricte des accès aux pages privées et administration.Règle d'erreur : En cas de pépin technique, le programme est configuré pour renvoyer le code d'erreur 84.
+https://i.postimg.cc/nVdQ9FJ9/Whats-App-Image-2026-03-16-at-23-32-34.jpg

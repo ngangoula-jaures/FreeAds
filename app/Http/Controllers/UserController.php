@@ -56,7 +56,7 @@ class UserController extends Controller
         $remember= $request->has('remember');
         if(Auth::attempt($credentials, $remember)){
             $request->session()->regenerate();
-            return redirect()->intended('/inscription');
+            return redirect()->intended('/accueil');
         }
         return back()->withErrors([
             'email'=>'Identifiants incorrects'

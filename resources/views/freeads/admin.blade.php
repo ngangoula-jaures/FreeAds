@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Storage;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net" rel="stylesheet">
 </head>
 <body>
     @if(session('success'))
@@ -153,7 +154,7 @@ use Illuminate\Support\Facades\Storage;
             @endphp
 
             <div class="pagination-links">
-                {{ $categories->links() }}
+                {{ $categories->links('pagination::bootstrap-5') }}
             </div><br>
             <button type="submit" name='modifyCategory' class='btn btn-primary'>Enregistrer les Modifs</button>
             <button type="submit" name='ajouterCategory' class='btn btn-primary'>+</button>

@@ -290,3 +290,12 @@ body {
     margin-right: 0;
 }
 }
+
+.pagination {
+        display: flex;
+        list-style: none;
+        padding-left: 0;
+    }
+    .page-item {
+        margin: 0 2px;
+    }
