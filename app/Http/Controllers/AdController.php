@@ -58,6 +58,6 @@ class AdController extends Controller
             }
             
             //$request->session()->forget('_old_input'); 
-            return redirect('/index')->with('success', 'Votre Article à été Publié avec Succès');
+            return redirect('/')->with('success', 'Votre Article à été Publié avec Succès');
     }
 }

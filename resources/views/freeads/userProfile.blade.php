@@ -1,141 +1,97 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite(['resources/css/app.css'])
-    @vite(['resources/css/adminDashboard/all.min.css'])
-    @vite(['resources/css/adminDashboard/framework.css'])
-    @vite(['resources/css/adminDashboard/master.css'])
-    @vite(['resources/css/adminDashboard/pages/Profile.css'])
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <title>Profile</title>
-</head>
-<body class="bg-ee">
-    <div class="page d-flex">
-        <div class="sidebar bg-white p-20 p-relative">
-            <h3 class="p-relative txt-c mt-0">FreeAds</h3>
-            <ul>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('dashboard') }}">
-                        <i class="fa-solid fa-chart-bar fa-fw"></i>
-                        <span class="fs-14 hide-mobile">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('user.profile') }}">
-                        <i class="fa-regular fa-user fa-fw"></i>
-                        <span class="fs-14 hide-mobile">Profile</span>
-                    </a>
-                </li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('user.annonces') }}">
-                        <i class="fa-solid fa-graduation-cap fa-fw"></i>
-                        <span class="fs-14 hide-mobile">&nbsp&nbsp Mes Annonces</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="content w-full ov-hidden">
-            <!-- Start Head -->
-            <div class="head bg-white p-15 between-flex">
-                <div class="p-relative">
-                    <button class="p-10" ></button>
-                </div>
-                <div class="icons d-flex align-center">
-                    <span class="p-relative">
-                    <button class='btn btn-primary'>Mot de Passe oublié ?</button>
-                    <form action="{{ route('logout') }}" method="POST">
-                         @csrf
-                    <button class='btn btn-primary'>Se deconnecter</button>
+@extends('base')
+@section('title', 'Mon Profil | FreeAds')
+
+@section('content')
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <div class="card shadow-sm border-0 sticky-top" style="top: 100px;">
+                <div class="card-body p-4 text-center">
+                    <form action="{{ route('user.avatar') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+                        <label for="new-img" style="cursor: pointer;" title="Cliquez pour modifier l'avatar"> 
+                            <img src="{{ $user->avatar ? Storage::url($user->avatar) : Storage::url('images/avatar.jpeg') }}" alt="Avatar" class="rounded-circle mb-3 shadow-sm border" style="width: 100px; height: 100px; object-fit: cover; transition: opacity 0.2s;" onmouseover="this.style.opacity=0.7" onmouseout="this.style.opacity=1">
+                        </label>
+                        <input type="file" id="new-img" name="avatar" accept="image/*" hidden onchange="this.form.submit()">
                     </form>
-                    </span>
+                    <h5 class="fw-bold mb-1 text-dark">{{ $user->login }}</h5>
+                    <span class="badge bg-light text-muted border mb-3 px-3 py-2 rounded-pill">{{ ucfirst($user->role) }}</span>
+                </div>
+                <div class="list-group list-group-flush border-top">
+                    <a href="{{ route('dashboard') }}" class="list-group-item list-group-item-action py-3 fw-bold text-muted">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-grid-fill me-2" viewBox="0 0 16 16">
+                            <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z"/>
+                        </svg>
+                        Tableau de bord
+                    </a>
+                    <a href="{{ route('user.profile') }}" class="list-group-item list-group-item-action py-3 fw-bold active bg-primary border-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person-fill me-2" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                        </svg>
+                        Mon Profil
+                    </a>
+                    <a href="{{ route('user.annonces') }}" class="list-group-item list-group-item-action py-3 fw-bold text-muted">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-megaphone-fill me-2" viewBox="0 0 16 16">
+                            <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-11zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25.222 25.222 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56V3.224zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009a68.14 68.14 0 0 1 .496.008 64 64 0 0 1 1.51.048zm1.39 1.081c.285.021.569.047.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a65.81 65.81 0 0 1 1.692.064c.327.017.65.037.966.06z"/>
+                        </svg>
+                        Mes Annonces
+                    </a>
                 </div>
             </div>
-            <!-- End Head -->
-            <h1 class="p-relative">Profile</h1>
-            <div class="profile-page m-20">
-                <!-- Start OverView -->
-                <div class="overview bg-white rad-10 d-flex align-center">
-                    <div class="avatar-box txt-c p-20">
-                        <img class="mb-10 rad-half" src="{{ Storage::url('images/avatar.jpeg') }}" alt="">
-                        <h3 class="m-0">{{ $user->login }}</h3>
-                        <p class="mt-10 c-grey">{{$user->role}}</p>
-                        <div class="level rad-6 bg-eee p-relative">
-                            <span style="width: 70%;"></span>
-                        </div>
-                        <div class="rating mt-10 mb-10">
-                            <i class="fa-solid fa-star c-orange fs-13"></i>
-                            <i class="fa-solid fa-star c-orange fs-13"></i>
-                            <i class="fa-solid fa-star c-orange fs-13"></i>
-                            <i class="fa-solid fa-star c-orange fs-13"></i>
-                            <i class="fa-solid fa-star c-orange fs-13"></i>
-                        </div>
-                        <p class="c-grey fs-13"></p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <h2 class="fw-bold mb-4 text-dark">Mon Profil</h2>
+            
+            <div class="card shadow-sm border-0 p-4 mb-4">
+                <h5 class="fw-bold mb-4 text-dark border-bottom pb-3">Informations Personnelles</h5>
+                
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-muted">Nom d'utilisateur</label>
+                        <p class="fs-5 fw-bold text-dark">{{ $user->login }}</p>
                     </div>
-                    <div class="info-box w-full txt-c-mobile">
-                        <!-- Start Information Row -->
-                            <div class="box p-20 d-flex align-center">
-                            <h4 class="c-grey fs-15 m-0 w-full">Informations Generales</h4>
-                            <div class="fs-14">
-                                <span class="c-grey">Nom Utilisateur:</span>
-                                <span>{{ $user->login }}</span>
-                            </div>
-                            <div class="fs-14">
-                                <span class="c-grey">Gender:</span>
-                                <span>Male</span>
-                            </div>
-                            <div class="fs-14">
-                                <span class="c-grey">Country:</span>
-                                <span>Egypt</span>
-                            </div>
-                            </div>
-                            <!-- End Information Row -->
-                            <!-- Start Information Row -->
-                            <div class="box p-20 d-flex align-center">
-                            <h4 class="c-grey w-full fs-15 m-0">Informations Personnelles</h4>
-                            <div class="fs-14">
-                                <span class="c-grey">Email: </span>
-                                <span>{{ $user->email }}</span>
-                            </div>
-                            <div class="fs-14">
-                                <span class="c-grey">Phone:</span>
-                                <span>{{ $user->phone_number }}</span>
-                            </div>
-                            <div class="fs-14">
-                                <span class="c-grey">Date Of Birth:</span>
-                                <span>25/10/1982</span>
-                            </div>
-                            <div class="fs-14">
-                                <label>
-                                <input class="toggle-checkbox" type="checkbox" />
-                                <div class="toggle-switch"></div>
-                                </label>
-                            </div>
-                            </div>
-                            <!-- End Information Row -->
-                            <!-- Start Information Row -->
-                            <div class="box p-20 d-flex align-center">
-                            {{-- <h4 class="c-grey w-full fs-15 m-0">Info Annonces</h4> --}}
-                            <div class="fs-14">
-                                <span class="c-grey">Total Annonces:</span>
-                                <span>{{ $adsCount }}</span>
-                            </div>
-                            </div>
-                            <!-- End Information Row -->
-                        </div>
-                        </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-muted">Rôle</label>
+                        <p class="fs-5 text-dark">{{ ucfirst($user->role) }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-muted">Adresse Email</label>
+                        <p class="fs-5 text-dark">{{ $user->email }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-muted">Numéro de Téléphone</label>
+                        <p class="fs-5 text-dark">{{ $user->phone_number }}</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-top">
+                    <!-- Placeholder buttons for future updates -->
+                    <button class="btn btn-outline-primary fw-bold px-4 me-2">Modifier mon profil</button>
+                    <button class="btn btn-outline-secondary fw-bold px-4">Changer de mot de passe</button>
                 </div>
             </div>
+
+            <div class="card shadow-sm border-0 p-4">
+                <h5 class="fw-bold mb-4 text-dark border-bottom pb-3">Statistiques de Parution</h5>
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <div class="bg-primary text-white rounded p-4 text-center">
+                            <h2 class="display-4 fw-bold mb-0">{{ $adsCount }}</h2>
+                            <span class="small opacity-75">Annonces créées</span>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <p class="text-muted mb-0">Vous avez <strong class="text-dark">{{ $adsCount }}</strong> annonces actives sur votre compte.</p>
+                        <a href="{{ route('user.annonces') }}" class="btn btn-sm btn-primary mt-3 fw-bold">Gérer mes annonces</a>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     </div>
-    <script>
-        function enableEmail() {
-            document.querySelector(".email").removeAttribute("disabled");
-        }
-    </script>
-</body>
-</html>
-
+</div>
+@endsection

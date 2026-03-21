@@ -9,6 +9,7 @@ use App\Models\Location;
 use App\Models\Ad;
 use App\Models\AdPhoto;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserDashboardController extends Controller
 {
@@ -57,6 +58,24 @@ class UserDashboardController extends Controller
     public function userActions(Request $request){
        
     }
+
+    public function modifyAvatar(Request $request){
+        //Ajouter Ou Modifier un Avatar sur le profile
+        $validated=$request->validate([
+            'avatar'=>'image|mimes:jpg,png,jpeg|max:2048',
+        ]);
+
+        if($request->hasFile('avatar')){
+            $user= Auth::user();
+            if($user->avatar){
+                Storage::disk('public')->delete($user->avatar);//on supprime le fichier physique dans le dossier storage/images/
+            }
+            $path = $request->file('avatar')->store('images', 'public');
+            $user->update(['avatar'=> $path]);
+        }
+        return back();
+    }
+
         //annonces User CRUD
     public function annoncesActions(Request $request){
         if($request->has('deleteAds')){

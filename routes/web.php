@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\URL;
 // on commence
 
 Route::get('/', [HomeController::class, 'displayAds'])->name('home.page');
-Route::get('/accueil', [HomeController::class, 'displayAds'])->name('home.page');
 Route::get('/redirection', [HomeController::class, 'verifRole'])->name('redirection.dashboard');
 
 //inscription avec coordonnées maintenant
@@ -40,7 +39,7 @@ Route::post('/publication', [AdController::class, 'publier'])->name('publication
 
 //Page D'accueil
 Route::get('/index', function() {
-    return 'lien expiré';
+    return redirect()->route('home.page');
 })->name('index');
 //Fin Page D'accueil
 
@@ -62,6 +61,7 @@ Route::get('/dashboard/annonces', [UserDashboardController::class, 'displayAnnon
 Route::post('/dashboard/annonces', [UserDashboardController::class, 'annoncesActions'])->name('userAnnonces.Actions');
 //Pages Profile User
 Route::get('/dashboard/profile', [UserDashboardController::class, 'displayProfilePage'])->name('user.profile')->middleware('auth');
+Route::patch('/dashboard/profile', [UserDashboardController::class, 'modifyAvatar'])->name('user.avatar')->middleware('auth');
 //Fin Dashboard User
 
 //Page Produits

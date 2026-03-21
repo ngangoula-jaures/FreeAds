@@ -111,18 +111,22 @@ class AdminController extends Controller
         }else if($request->has('ajouterCategory')){
             //Ajouter Une Category et afficher un champ de façon dynamique pour creer la new Category
             $users= User::paginate(7, ['*'], 'users');
+            $user= Auth::user();
             $categories= Category::paginate(4, ['*'], 'categories');
             $ajouter='';
-            return view('freeads.admin', compact('users', 'categories', 'ajouter'));
+             $adsCount= Ad::where('user_id', $user->id)->count();
+            return view('freeads.admin', compact('users', 'categories', 'ajouter', 'user', 'adsCount'));
         }else if($request->has('q')){
             //Effectuer des recherches sur le login, email et numero utilisateur
             $input=$request->q;
+            $user=Auth::user();
+            $adsCount= Ad::where('user_id', $user->id)->count();
             $users=User::where('login', 'LIKE', "%$input%")
             ->orWhere('email', 'LIKE', "%$input%")
             ->orWhere('phone_number', 'LIKE', "%$input%")->paginate(7, ['*'], 'users');
             $categories= Category::paginate(4, ['*'], 'categories');
 
-            return view('freeads.admin', compact('users', 'categories'));
+            return view('freeads.admin', compact('users', 'categories', 'user', 'adsCount'));
         }
 
     }

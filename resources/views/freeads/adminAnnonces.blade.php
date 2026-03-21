@@ -1,102 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Main Style sheets -->
-    @vite(['resources/css/app.css'])
-    @vite(['resources/css/adminDashboard/all.min.css'])
-    @vite(['resources/css/adminDashboard/framework.css'])
-    @vite(['resources/css/adminDashboard/master.css'])
-    @vite(['resources/css/adminDashboard/pages/Annonces.css'])
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
-    <title>Courses</title>
-</head>
-<body class="bg-ee">
-    <div class="page d-flex">
-        <div class="sidebar bg-white p-20 p-relative">
-            <h3 class="p-relative txt-c mt-0">FreeAds</h3>
-            <ul>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('admin') }}">
-                        <i class="fa-solid fa-chart-bar fa-fw"></i>
-                        <span class="fs-14 hide-mobile">Dashboard</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('admin.profile') }}">
-                        <i class="fa-regular fa-user fa-fw"></i>
-                        <span class="fs-14 hide-mobile">Profile</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="active d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('admin.annonces') }}">
-                        <i class="fa-solid fa-graduation-cap fa-fw"></i>
-                        <span class="fs-14 hide-mobile">Annonces</span>
-                    </a>
-                </li>
-                <li>
-            <a class="d-flex align-center fs-14 c-black rad-6 p-10" href="{{ route('home.page') }}">
-            <span>Accueil</span>
-            </a>
-        </li>
-            </ul>
-        </div>
-        <div class="content w-full ov-hidden">
-            <!-- Start Head -->
-            <div class="head bg-white p-15 between-flex">
-                <div class="search p-relative">
-                    <form action="{{ route('admin.annoncesActions') }}" method="POST">
-                        @csrf
-                    <input class="p-10" type="search" name='q' placeholder="Rechercher" />
-                    </form>
+@extends('base')
+@section('title', 'Modération Annonces | FreeAds Admin')
+
+@section('content')
+<div class="container py-5">
+    
+    <div class="row g-4">
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <div class="card shadow-sm border-0 sticky-top" style="top: 100px;">
+                <div class="card-body p-4 text-center">
+                    <img src="{{ Auth::user()->avatar ? Storage::url(Auth::user()->avatar) : Storage::url('images/avatar.jpeg') }}" alt="Avatar" class="rounded-circle mb-3 shadow-sm border" style="width: 100px; height: 100px; object-fit: cover;">
+                    <h5 class="fw-bold mb-1 text-dark">{{ Auth::user()->login }}</h5>
+                    <span class="badge bg-danger text-white border mb-3 px-3 py-2 rounded-pill">Administrateur</span>
                 </div>
-                <div class="icons d-flex align-center">
-                    <span class="p-relative">
-                        <form action="{{ route('logout') }}" method="POST">
-                         @csrf
-                    <button class='btn btn-primary'>Se deconnecter</button>
-                        </form>
-                    </span>
+                <div class="list-group list-group-flush border-top">
+                    <a href="{{ route('admin') }}" class="list-group-item list-group-item-action py-3 fw-bold text-muted">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-grid-fill me-2" viewBox="0 0 16 16">
+                            <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zm8 0A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm-8 8A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm8 0A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3z"/>
+                        </svg>
+                        Dashboard
+                    </a>
+                    <a href="{{ route('admin.profile') }}" class="list-group-item list-group-item-action py-3 fw-bold text-muted">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person-fill me-2" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                        </svg>
+                        Mon Profil
+                    </a>
+                    <a href="{{ route('admin.annonces') }}" class="list-group-item list-group-item-action py-3 fw-bold active bg-danger border-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-megaphone-fill me-2" viewBox="0 0 16 16">
+                            <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-11zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25.222 25.222 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56V3.224zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009a68.14 68.14 0 0 1 .496.008 64 64 0 0 1 1.51.048zm1.39 1.081c.285.021.569.047.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a65.81 65.81 0 0 1 1.692.064c.327.017.65.037.966.06z"/>
+                        </svg>
+                        Toutes les Annonces
+                    </a>
                 </div>
             </div>
-            <h1 class="p-relative"><b>Annonces</b></h1>
-            <!-- End Head -->
-            <!-- Start Courses Page -->
-
-            <div class="courses-page d-grid m-20 gap-20">
-                @foreach($ads as $ad)
-                <div class="bg-white p-relative rad-6 course">
-                    <a href='{{ route('annonces.id', ['id'=>$ad->id]) }}'><img class="cover" src="{{ Storage::url($photos[$ad->id]['path']) }}" alt="" /></a>
-                    {{--<img class="instructor" src="imgs/team-01.png" alt="" />--}}
-                    <div class="p-20">
-                        <h4 class="m-0">{{ $ad->title}}</h4>
-                        <p class="desc c-grey mt-15 fs-14"></p>
-                    </div>
-                     <form action="{{ route('admin.annoncesActions') }}" method="POST">
-                            @csrf
-                    <div class="info p-15 p-relative between-flex">
-                        <span class="title bg-blue c-white btn-shape p-absolute"><button type='submit' name='deleteAds' value="{{ $ad->id }}">Supprimer</button></span>
-                        <span class="c-grey">
-                            <i class="fa-solid fa-user"></i>
-                            {{ $ad->condition }} 
-                        </span>
-                        <span class="c-grey">
-                            {{ $ad->price }} FCFA
-                        </span>
-                    </div>
-                    </form>
-                </div>
-                @endforeach 
-
-            </div>
-            <!-- End Courses Page -->
         </div>
-        <div class="pagination-links">
-            {{ $ads->links() }}
+
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold m-0 text-dark">Modération des Annonces</h2>
+            </div>
+
+            <div class="card shadow-sm border-0 mb-4 p-3 bg-light">
+                <form action="{{ route('admin.annoncesActions') }}" method="POST" class="d-flex w-100 gap-2 mb-0">
+                    @csrf
+                    <input class="form-control" type="search" name="q" placeholder="Rechercher une annonce par titre..." value="{{ request('q') }}" />
+                    <button class="btn btn-outline-danger fw-bold" type="submit">Chercher</button>
+                </form>
+            </div>
+
+            @if(isset($ads) && count($ads) > 0)
+                <div class="row g-4">
+                    @foreach($ads as $ad)
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 shadow-sm border-0 position-relative bg-white border border-light">
+                            <!-- Image -->
+                            <a href="{{ route('annonces.id', ['id'=>$ad->id]) }}" class="text-decoration-none text-dark">
+                                <img src="{{ Storage::url($photos[$ad->id]['path']) }}" class="card-img-top w-100" style="height: 180px; object-fit: cover;" alt="{{ $ad->title }}">
+                            </a>
+                            
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="fw-bold mb-2 text-truncate" title="{{ $ad->title }}">{{ $ad->title }}</h5>
+                                <div class="d-flex justify-content-between align-items-center mb-3 text-muted small">
+                                    <span class="badge bg-light text-dark px-2 py-1 border"><i class="fa-solid fa-user me-1"></i> {{ $ad->condition }}</span>
+                                    <span class="fw-bold text-price-yellow fs-5">{{ number_format($ad->price, 0, ',', ' ') }} FCFA</span>
+                                </div>
+                                
+                                <form action="{{ route('admin.annoncesActions') }}" method="POST" class="mt-auto">
+                                    @csrf
+                                    <input type="hidden" name="deleteAds" value="{{ $ad->id }}">
+                                    <button type="submit" class="btn btn-outline-danger w-100 fw-bold btn-sm" onclick="return confirm('En tant qu\'administrateur, voulez-vous vraiment supprimer cette annonce?')">
+                                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill me-1" viewBox="0 0 16 16">
+                                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                                        </svg> Supprimer (Admin)
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach 
+                </div>
+
+                <div class="mt-4 pb-5">
+                    {{ $ads->links() }}
+                </div>
+            @endif
+
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

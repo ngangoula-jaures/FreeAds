@@ -15,9 +15,30 @@ class HomeController extends Controller
 
     //private function __construct(){
 
-    public function displayAds(){
+    public function displayAds(Request $request){
          
-        $ads= Ad::paginate(12, ['*'], 'ads');
+        $query = Ad::query();
+
+        if ($request->filled('q')) {
+            $query->where(function($qBuilder) use ($request) {
+                $qBuilder->where('title', 'like', '%' . $request->q . '%')
+                         ->orWhere('description', 'like', '%' . $request->q . '%');
+            });
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('location_id')) {
+            $query->where('location_id', $request->location_id);
+        }
+
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        $ads = $query->orderBy('created_at', 'desc')->paginate(12, ['*'], 'ads')->appends($request->all());
         $photos=[];
         foreach($ads as $ad){
            $photos[$ad->id]= AdPhoto::where('ad_id', $ad->id)->first();
@@ -38,7 +59,7 @@ class HomeController extends Controller
             }
         }
         
-       return redirect('/accueil');
+       return redirect('/');
     }
 
     public function logout(Request $request){
@@ -48,7 +69,7 @@ class HomeController extends Controller
 
     $request->session()->regenerateToken();
 
-    return redirect('/accueil');
+    return redirect('/');
     }
 
 }

@@ -27,7 +27,7 @@ class UserController extends Controller
         $user= User::create($validated);
         $tmpuser->delete();
         Auth::login($user, $remember);
-        return redirect('/publication')->with('success', 'Inscription Reussie');
+        return redirect('/')->with('success', 'Inscription Reussie');
         
     }
 
@@ -37,7 +37,7 @@ class UserController extends Controller
             if($verifToken){
                 return view('freeads.signup', compact('verifToken'));
             }else {
-                return redirect()->route('index');
+                return redirect()->route('home.page');
             }
     }
 
@@ -56,7 +56,7 @@ class UserController extends Controller
         $remember= $request->has('remember');
         if(Auth::attempt($credentials, $remember)){
             $request->session()->regenerate();
-            return redirect()->intended('/accueil');
+            return redirect()->intended('/');
         }
         return back()->withErrors([
             'email'=>'Identifiants incorrects'
