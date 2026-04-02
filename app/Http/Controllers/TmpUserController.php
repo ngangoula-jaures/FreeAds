@@ -40,7 +40,7 @@ class TmpUserController extends Controller
         //au cas ou il aurait expiré! 24h
         $verifToken= TmpUser::where('token', $token)->firstOrFail();
 
-        if($verifToken->created_at < now()->subMinutes(1)){
+        if($verifToken->created_at < now()->subMinutes(2)){
             $verifToken->delete();
             return redirect()->route('index');
         }else{
