@@ -34,11 +34,16 @@ class UserController extends Controller
     public function displaySignupPage($token){
         //On affiche ici la page d'inscription qui provient de la route('inscription/{token}')
         $verifToken= TmpUser::where('token', $token)->first();
-            if($verifToken){
-                return view('freeads.signup', compact('verifToken'));
-            }else {
-                return redirect()->route('home.page');
-            }
+        if(!$verifToken){
+            // Token inexistant
+            return redirect()->route('home.page');
+        }
+        if($verifToken->created_at < now()->subMinutes(2)){
+            // Token expiré : on supprime et on redirige
+            $verifToken->delete();
+            return redirect()->route('index');
+        }
+        return view('freeads.signup', compact('verifToken'));
     }
 
     public function displayLoginPage(){
